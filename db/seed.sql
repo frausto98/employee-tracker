@@ -70,13 +70,13 @@ VALUES
 
 
 
-("Saul", "L", 12, 5),
-("Mickey", "R", 6, 4),
+("Saul", "L", 12, 4),
+("Mickey", "R", 6, 5),
 ("Luis", "F", 15, 3),
 ("Gabriel", "G", 3, 2),
 
 ("Carlos", "S", 3, 2),
-("Chris", "I", 12, 5),
+("Chris", "I", 12, 4),
 ("Michael", "W", 15, 3),
-("Dontay", "K", 6, 4);
+("Dontay", "K", 6, 5);
 
