@@ -39,20 +39,9 @@ inquirer
                 viewEmployee()
                 break;
 
-            // case "Add a Department":
-            //     inquirer
-            //         .prompt({
-            //             type:"input",
-            //             name: "departmentName",
-            //             message:"Please enter department name:"
-            //         })
-            //         .then((answer) => {
-            //             db.query(`INSERT INTO departments (name)
-            //             VALUES (${answer})`, function (err, results) {
-            //             console.log(results);
-            //             });
-            //         })
-            //     break;
+            case "Add a Department":
+                addDepartment()
+                break;
 
         }
     })
@@ -77,5 +66,21 @@ function viewEmployee() {
         theQuestion();
 }
 function addDepartment(){
+    inquirer
+         .prompt({
+             type:"input",
+             name: "deptName",
+             message:"Please enter department name:"
+         })
+         .then((answer) => {
+             console.log(answer)
+             let userChoice = answer.deptName
+             console.log(userChoice)
 
-}
+             db.query(`INSERT INTO departments(name) VALUES ("${userChoice}")`, function (err, results) {
+             //console.log(results);
+             });
+             viewDepartment();
+         })
+     }
+
