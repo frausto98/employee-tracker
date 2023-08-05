@@ -14,73 +14,114 @@ console.log("Be sure you have used SOURCE + the /path/ of both .sql files.")
 
 
 const mainQuestion = {
-        type: "list",
-        name: "mainOption",
-        message: "What would you like to do?",
-        choices: ["View All Departments", "View All Roles", "View All Employees", "Add a Department", "Add a Role", "Add an Employee", "Update Employee Role", "Exit"]
-    }
-    
-    theQuestion()
+    type: "list",
+    name: "mainOption",
+    message: "What would you like to do?",
+    choices: ["View All Departments", "View All Roles", "View All Employees", "Add a Department", "Add a Role", "Add an Employee", "Update Employee Role", "Exit"]
+}
+
+theQuestion()
 
 function theQuestion() {
-inquirer
-    .prompt(mainQuestion)
-    .then((answers) => {
-        switch (answers.mainOption) {
-            case "View All Departments":
-                viewDepartment()
-                break;
+    inquirer
+        .prompt(mainQuestion)
+        .then((answers) => {
+            switch (answers.mainOption) {
+                case "View All Departments":
+                    viewDepartment()
+                    break;
 
-            case "View All Roles":
-                viewRole()
-                break;
+                case "View All Roles":
+                    viewRole()
+                    break;
 
-            case "View All Employees":
-                viewEmployee()
-                break;
+                case "View All Employees":
+                    viewEmployee()
+                    break;
 
-            case "Add a Department":
-                addDepartment()
-                break;
+                case "Add a Department":
+                    addDepartment()
+                    break;
 
-        }
-    })
+                case "Add a Role":
+                    
+                db.query(`SELECT * FROM departments`, function (err, results) {
+                    console.table(results)
+                })
+            
+                inquirer
+                    .prompt([
+                        {
+                        type:  "input",
+                        name: "roleDept",
+                        message:  "Please enter the department this is assigned to (View Table):"
+                        },
+                        {
+                        type: "input",
+                        name: "roleName",
+                        message: "Please enter a new role name:"
+                        },
+                        {
+                        type: "input",
+                        name:  "roleSalary",
+                        message: "Please enter a new role salary:"
+                        }
+                    ]
+                    )
+                    .then((answs) => {
+                        console.log(answs.roleDept, answs.roleName, answs.roleSalary)
+            
+                        db.query(`INSERT INTO role (title, salary, department_id) VALUES ("${answs.roleName}", "${answs.roleSalary}", "${answs.roleDept}")`, function (err, results) {
+                            //console.log(results);
+                        });
+                        viewRole();
+                    })
+
+                    break;
+
+            }
+        })
 }
 
 function viewDepartment() {
     db.query(`SELECT * FROM departments`, function (err, results) {
-                    console.table(results)
-                })
-        theQuestion();
+        console.table(results)
+    })
+    theQuestion();
 }
 function viewRole() {
     db.query(`SELECT * FROM role`, function (err, results) {
-                    console.table(results)
-                })
-        theQuestion();
+        console.table(results)
+    })
+    theQuestion();
 }
 function viewEmployee() {
     db.query(`SELECT * FROM employee`, function (err, results) {
-                    console.table(results)
-                })
-        theQuestion();
+        console.table(results)
+    })
+    theQuestion();
 }
-function addDepartment(){
+function addDepartment() {
     inquirer
-         .prompt({
-             type:"input",
-             name: "deptName",
-             message:"Please enter department name:"
-         })
-         .then((answer) => {
-             console.log(answer)
-             let userChoice = answer.deptName
-             console.log(userChoice)
+        .prompt({
+            type: "input",
+            name: "deptName",
+            message: "Please enter a new department name:"
+        })
+        .then((answer) => {
+            console.log(answer)
+            let userChoice = answer.deptName
+            console.log(userChoice)
 
-             db.query(`INSERT INTO departments(name) VALUES ("${userChoice}")`, function (err, results) {
-             //console.log(results);
-             });
-             viewDepartment();
-         })
-     }
+            db.query(`INSERT INTO departments(name) VALUES ("${userChoice}")`, function (err, results) {
+                //console.log(results);
+            });
+            viewDepartment();
+        })
+}
 
+function addRole() {
+
+    
+    
+}
